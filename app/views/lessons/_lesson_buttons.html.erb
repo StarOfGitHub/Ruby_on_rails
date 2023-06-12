@@ -1,0 +1,26 @@
+<div class="flex flex-col justify-center max-w-sm mx-auto space-y-6 md:max-w-full md:space-y-0 md:flex-row md:space-x-7">
+  <%= link_to path_course_path(course.path, course), class: 'button button--secondary font-medium', data: { test_id: 'view-course-btn' } do %>
+    <i class="pr-2 text-lg far fa-map"></i>View Course
+  <% end %>
+
+  <% if user_signed_in? %>
+    <%= render Complete::ButtonComponent.new(lesson:) %>
+  <% else %>
+    <%= link_to(
+          'Sign in to track progress',
+          sign_in_path,
+          class: 'button button--primary',
+          data: { test_id: 'sign_in_button' }
+        ) %>
+  <% end %>
+
+  <% if course.next_lesson(lesson).present? %>
+    <%= link_to lesson_path(course.next_lesson(lesson)), class: 'button button--secondary font-medium', data: { test_id: 'next-lesson-btn' } do %>
+      <i class="pr-2 text-lg far fa-arrow-alt-circle-right" aria-hidden="true"></i>Next Lesson
+    <% end %>
+  <% elsif lesson.choose_path_lesson? %>
+    <%= link_to paths_url, class: 'button button--secondary font-medium', data: { test_id: 'choose-path-lesson-btn' } do %>
+      <i class="pr-2 text-lg fas fa-road" aria-hidden="true"></i>Choose Path
+    <% end %>
+  <% end %>
+</div>
